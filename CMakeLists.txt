@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(rippled)
 set (CMAKE_CXX_STANDARD 20)
-
-add_executable(rippled hello.cpp)
+execute_process(COMMAND git describe --always --abbrev=40 OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE version)
+message("version: ${version}")
+add_compile_options(-fpermissive)
+configure_file(hello.cpp.in hello.cpp)
+add_executable(rippled ${CMAKE_CURRENT_BINARY_DIR}/hello.cpp)
